@@ -8,8 +8,8 @@ class MachineWithEnumIntegrationTest < BaseTestCase
     $stderr = StringIO.new
 
     @model = new_model do
-      connection.add_column table_name, :status, :integer, default: 0
-      enum :status, { pending: 0, processing: 1, completed: 2, failed: 3 }
+      connection.add_column table_name, :status, :integer, default: nil
+      enum :status, { pending: 'pending', processing: 'processing', completed: 'completed', failed: 'failed' }
     end
   end
 
@@ -24,7 +24,7 @@ class MachineWithEnumIntegrationTest < BaseTestCase
     # Test enum integration detection
     assert @machine.respond_to?(:enum_integrated?), 'Machine should respond to enum_integrated?'
     assert @machine.enum_integrated?
-    assert_equal({ 'pending' => 0, 'processing' => 1, 'completed' => 2, 'failed' => 3 }, @machine.enum_mapping)
+    assert_equal({ 'pending' => 'pending', 'processing' => 'processing', 'completed' => 'completed', 'failed' => 'failed' }, @machine.enum_mapping)
 
     # Test that states are properly defined using shared assertions
     assert_sm_states_list(@machine, %i[pending processing completed failed])
