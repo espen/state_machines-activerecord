@@ -8,7 +8,7 @@ class MachineWithEnumIntegrationTest < BaseTestCase
     $stderr = StringIO.new
 
     @model = new_model do
-      connection.add_column table_name, :status, :integer, default: nil
+      connection.add_column table_name, :status, :string, default: nil
       enum :status, { pending: 'pending', processing: 'processing', completed: 'completed', failed: 'failed' }
     end
   end
